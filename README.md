@@ -60,6 +60,20 @@ python manage.py migrate
 python manage.py runserver
 ```
 
+### 🧪 API Usage
+You can use Postman or Browser to test the API.
+
+#### Upload Video/Image
+
+POST http://localhost:8008/api/v1/media/
+Content-Type: multipart/form-data
+
+Form Data:
+  - type: <photo/video>
+  - file: <photo/video file>
+
+Response will include thumbnail, HLS URL (if video), and pHash.
+
 Note: This works successfully in the local environment. For the production environment, production setup and credentials will be needed.
 
 
