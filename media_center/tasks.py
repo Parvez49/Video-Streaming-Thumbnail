@@ -40,10 +40,10 @@ def generate_hls_for_media(video_url: str, media_id: int):
     dest_path = f'media/v1/video-files/{media_id}_v2'
     upload_folder_to_spaces(output_dir, dest_path)
 
-    # update media hls_playlist field
+    # update media hls_playlist field — built from dest_path so the stored URL
+    # can never drift from where the segments were actually uploaded
     media = Media.objects.get(id=media_id)
-    hls_base_url = f"{settings.HLS_PLAYLIST_SERVER}/media"
-    media.hls_playlist = f"{hls_base_url}/v1/video-files/{media.id}_v1/master_playlist.m3u8"
+    media.hls_playlist = f"{settings.HLS_PLAYLIST_SERVER}/{dest_path}/master_playlist.m3u8"
     media.save(update_fields=['hls_playlist'])
 
     print(f"✅ HLS generated and uploaded for media {media_id}")
